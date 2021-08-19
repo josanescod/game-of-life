@@ -38,6 +38,10 @@ const createWorld = () => {
         table.appendChild(tableRow);
     }
     world.appendChild(table);
+
+    //create buttons
+    let testEvolve = document.querySelector('#testEvolve');
+    testEvolve.addEventListener('click', evolve);
 }
 
 function cellClick() {
@@ -56,7 +60,6 @@ function cellClick() {
 
     console.log('number of neighbors: ', getNeighborCount(row, col));
 }
-
 
 function getNeighborCount(row, col) {
     let count = 0;
@@ -115,8 +118,70 @@ function getNeighborCount(row, col) {
 
     return count;
 }
+
+function createNextGen() {
+    for (row in currentGen) {
+        for (col in currentGen[row]) {
+            let neighbors = getNeighborCount(row, col);
+            //Check the rules
+            //If alive
+            if (currentGen[row][col] == 1) {
+                if (neighbors < 2) {
+                    nextGen[row][col] = 0;
+                } else if (neighbors == 2 || neighbors == 3) {
+                    nextGen[row][col] = 1;
+                } else if (neighbors > 3) {
+                    nextGen[row][col] = 0;
+                }
+
+            } else if (currentGen[row][col] == 0) {
+                //If Dead or empty
+                if (neighbors == 3) {
+                    //Propagate the species
+                    nextGen[row][col] = 1; //Birth
+                }
+            }
+        }
+    }
+    console.log('createNextGen');
+}
+
+function updateCurrentGen() {
+    for (row in currentGen) {
+        for (col in currentGen[row]) {
+            //Update the current generation with the results of createNextGen function
+            currentGen[row][col] = nextGen[row][col];
+            //Set nextGen back to empty
+            nextGen[row][col] = 0;
+        }
+    }
+    console.log('updateCurrentGen');
+}
+
+function updateWorld() {
+    let cell = '';
+    for (row in currentGen) {
+        for (col in currentGen[row]) {
+            cell = document.getElementById(row + '_' + col);
+            if (currentGen[row][col] == 0) {
+                cell.setAttribute('class', 'dead');
+            } else {
+                cell.setAttribute('class', 'alive');
+            }
+        }
+    }
+    console.log('updateWorld');
+}
+
+function evolve() {
+    createNextGen();//Apply the rules
+    updateCurrentGen();//Set current values from new generation
+    updateWorld();//Update the world view index.html
+}
+
 window.onload = () => {
     createWorld();//the visual table
     createGenArrays();//current and next generations
-    initGenArrays();//set all array locations to 0=dead
+    initGenArrays();//set all array locations to 0=deadi
+
 }
