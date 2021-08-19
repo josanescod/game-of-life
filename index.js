@@ -4,6 +4,10 @@ const cols = 40;
 let currentGen = [rows];
 let nextGen = [rows];
 
+let started = false; //Set true when use clicks start
+let timer; //To control evolutions
+let evolutionSpeed = 500 //One second between generations
+
 const createGenArrays = () => {
     for (let i = 0; i < rows; i++) {
         currentGen[i] = new Array(cols);
@@ -39,9 +43,13 @@ const createWorld = () => {
     }
     world.appendChild(table);
 
-    //create buttons
-    let testEvolve = document.querySelector('#testEvolve');
+    //set buttons
+    let testEvolve = document.querySelector('#test');
     testEvolve.addEventListener('click', evolve);
+    let startStop = document.querySelector('#startStop');
+    startStop.addEventListener('click', startStopGol);
+    let reset = document.querySelector('#reset');
+    reset.addEventListener('click', resetWorld);
 }
 
 function cellClick() {
@@ -177,11 +185,33 @@ function evolve() {
     createNextGen();//Apply the rules
     updateCurrentGen();//Set current values from new generation
     updateWorld();//Update the world view index.html
+    if (started) {
+        timer = setTimeout(evolve, evolutionSpeed);
+    }
+}
+
+function startStopGol() {
+    let startStop = document.querySelector('#startStop');
+    if (!started) {
+        started = true;
+        startStop.value = 'Stop';
+        evolve();
+    } else {
+        started = false;
+        startStop.value = 'Start';
+        clearTimeout(timer);
+    }
+    console.log('startStopGol');
+}
+
+function resetWorld() {
+    location.reload();
+    console.log('reset');
 }
 
 window.onload = () => {
     createWorld();//the visual table
     createGenArrays();//current and next generations
-    initGenArrays();//set all array locations to 0=deadi
+    initGenArrays();//set all array locations to 0=dead
 
 }
