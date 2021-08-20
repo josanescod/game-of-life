@@ -9,6 +9,7 @@ let timer; //To control evolutions
 let evolutionSpeed = 300 //time in ms between generations
 let generation = 1;
 let spanGen = document.querySelector('#generation');
+let showInfo = false;
 
 const createGenArrays = () => {
     for (let i = 0; i < rows; i++) {
@@ -195,9 +196,8 @@ function evolve() {
     if (started) {
         timer = setTimeout(evolve, evolutionSpeed);
     }
-    console.log('generation: ', generation);
     spanGen.innerHTML = generation;
-    console.log(spanGen);
+    console.log('generation: ', generation);
 }
 
 function startStopGol() {
@@ -246,11 +246,68 @@ function resetWorld() {
 
 
 function information() {
-    console.log('info');
+
+    if (showInfo === false) {
+        showInfo = true;
+        //Create databoard
+        createDataboard();
+        enableDisableButton(info);
+        //set closebutton
+        let closeButton = document.querySelector('.closebutton');
+        closeButton.addEventListener('click', function () {
+            console.log('closing databoard')
+            //remove div databoard
+            let databoard = document.querySelector('#databoard');
+            databoard.remove();
+            showInfo = false;
+            enableDisableButton(info);
+
+        })
+        console.log('info');
+    }
+}
+
+function createDataboard() {
+    // create div and childrens
+    let divdb = document.createElement('div')
+    divdb.setAttribute('id', 'databoard');
+    let pdb1 = document.createElement('p')
+    pdb1.setAttribute('class', 'closebutton');
+    pdb1.innerHTML = '[X]';
+    let brdb = document.createElement('br');
+    let pdb2 = document.createElement('p');
+    pdb2.innerHTML = 'Info: Game of Life';
+    let pdb3 = document.createElement('p');
+    pdb3.innerHTML = 'Rules: Rules';
+    let pdb4 = document.createElement('p');
+    pdb4.innerHTML = 'Source: Github';
+    let h6db = document.createElement('h6')
+    h6db.setAttribute('id', 'year');
+    //add all elements
+    divdb.appendChild(pdb1);
+    divdb.appendChild(brdb);
+    divdb.appendChild(pdb2);
+    divdb.appendChild(pdb3);
+    divdb.appendChild(pdb4);
+    divdb.appendChild(h6db);
+    //add div before panel
+    let panel = document.querySelector('.panel');
+    panel.insertAdjacentElement('beforebegin', divdb);
+    printYear();
+
+}
+
+function printYear() {
+    let date = new Date();
+    let year = date.getFullYear();
+    let htmlYear = document.querySelector('#year');
+    htmlYear.innerHTML = `${year}`;
+
 }
 window.onload = () => {
     createWorld();//the visual table
     createGenArrays();//current and next generations
     initGenArrays();//set all array locations to 0=dead
+    //printYear();
 
 }

@@ -28,15 +28,24 @@ td.dead {
 }
 
 td.alive {
-    background-color: blue;
+    background-color: #1AADED;
 }
 
 h1, h2 {
     text-align: center;
 }
 
+#databoard {
+    text-align: left;
+    border: 1px solid rgba(169, 169, 169, 0.2);
+    margin-left: 25%;
+    margin-right: 25%;
+    padding: 5px;
+}
+
 .panel {
     text-align: center;
+    margin-top: 10px;
 }
 
 input, button {
@@ -64,4 +73,22 @@ button:hover {
 
 #generation {
     color: white;
+}
+
+.closebutton {
+    font-size: 20px;
+    float: right;
+    color: #47B896;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.closebutton:hover {
+    color: white;
+    cursor: context-menu;
+}
+
+#year {
+    text-align: center;
+    margin-bottom: 0px;
 }
