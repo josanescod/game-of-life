@@ -207,26 +207,30 @@ function startStopGol() {
     if (!started) {
         started = true;
         startStop.value = 'STOP';
-        test.disabled = true;
-        test.style.backgroundColor = 'grey';
-        test.style.color = 'rgba(255, 255, 255, 0.5)';
-        reset.disabled = true;
-        reset.style.backgroundColor = 'grey';
-        reset.style.color = 'rgba(255, 255, 255, 0.5)';
-
+        enableDisableButton(test);
+        enableDisableButton(reset);
         evolve();
     } else {
         started = false;
         startStop.value = 'START';
-        test.style.backgroundColor = '#47B896';
-        test.style.color = '#FFFFFF';
-        test.disabled = false;
-        reset.style.backgroundColor = '#47B896';
-        reset.style.color = '#FFFFFF';
-        reset.disabled = false;
+        enableDisableButton(test);
+        enableDisableButton(reset);
         clearTimeout(timer);
     }
     console.log('startStopGol');
+}
+
+function enableDisableButton(button) {
+    if (button.disabled == false) {
+        button.disabled = true;
+        button.style.backgroundColor = 'grey';
+        button.style.color = 'rgba(255, 255, 255, 0.5)';
+    } else {
+        button.style.backgroundColor = '#47B896';
+        button.style.color = '#FFFFFF';
+        button.disabled = false;
+
+    }
 }
 
 function resetWorld() {
