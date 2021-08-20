@@ -194,11 +194,11 @@ function startStopGol() {
     let startStop = document.querySelector('#startStop');
     if (!started) {
         started = true;
-        startStop.value = 'Stop';
+        startStop.value = 'STOP';
         evolve();
     } else {
         started = false;
-        startStop.value = 'Start';
+        startStop.value = 'START';
         clearTimeout(timer);
     }
     console.log('startStopGol');
