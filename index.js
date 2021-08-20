@@ -6,7 +6,7 @@ let nextGen = [rows];
 
 let started = false; //Set true when use clicks start
 let timer; //To control evolutions
-let evolutionSpeed = 500 //One second between generations
+let evolutionSpeed = 300 //time in ms between generations
 let generation = 1;
 let spanGen = document.querySelector('#generation');
 
@@ -202,13 +202,28 @@ function evolve() {
 
 function startStopGol() {
     let startStop = document.querySelector('#startStop');
+    let test = document.querySelector('#test');
+    let reset = document.querySelector('#reset');
     if (!started) {
         started = true;
         startStop.value = 'STOP';
+        test.disabled = true;
+        test.style.backgroundColor = 'grey';
+        test.style.color = 'rgba(255, 255, 255, 0.5)';
+        reset.disabled = true;
+        reset.style.backgroundColor = 'grey';
+        reset.style.color = 'rgba(255, 255, 255, 0.5)';
+
         evolve();
     } else {
         started = false;
         startStop.value = 'START';
+        test.style.backgroundColor = '#47B896';
+        test.style.color = '#FFFFFF';
+        test.disabled = false;
+        reset.style.backgroundColor = '#47B896';
+        reset.style.color = '#FFFFFF';
+        reset.disabled = false;
         clearTimeout(timer);
     }
     console.log('startStopGol');
