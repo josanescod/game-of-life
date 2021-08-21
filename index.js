@@ -68,8 +68,6 @@ function cellClick() {
             currentGen[row][col] = 0,
             livingCells--,
             spanLivingCells.innerHTML = livingCells
-            //console.log('row:', row, 'col:', col, 'living:', currentGen[row][col])
-
         )
         : (
             this.setAttribute('class', 'alive'),
@@ -77,8 +75,6 @@ function cellClick() {
             livingCells++,
             spanLivingCells.innerHTML = livingCells
         )
-    //console.log('row:', row, 'col:', col, 'living:', currentGen[row][col]))
-
     console.log(`row: ${row} | col: ${col} | living: ${currentGen[row][col]}
 number of neighbors: ${getNeighborCount(row, col)} | living cells: ${livingCells}`);
 }
@@ -137,7 +133,6 @@ function getNeighborCount(row, col) {
         //check bottom neighbor
         if (currentGen[numberRow + 1][numberCol] == 1) count++;
     }
-
     return count;
 }
 
@@ -188,11 +183,8 @@ function updateWorld() {
             cell = document.getElementById(row + '_' + col);
             if (currentGen[row][col] == 0) {
                 cell.setAttribute('class', 'dead');
-
-
             } else {
                 cell.setAttribute('class', 'alive');
-
             }
         }
     }
@@ -208,7 +200,6 @@ function evolve() {
     }
     spanGen.innerHTML = generation;
     console.log('generation: ', generation, ' / living Cells: ', livingCells);
-    //show number of living cells
     spanLivingCells.innerHTML = livingCells;
 
 }
@@ -241,7 +232,6 @@ function enableDisableButton(button) {
         button.style.backgroundColor = '#47B896';
         button.style.color = '#FFFFFF';
         button.disabled = false;
-
     }
 }
 
@@ -252,12 +242,11 @@ function resetWorld() {
     spanLivingCells.innerHTML = livingCells;
     let table = document.querySelector('table');
     table.remove();
-    createWorld();//the visual table
-    createGenArrays();//current and next generations
+    createWorld();
+    createGenArrays();
     initGenArrays();
     console.clear();
 }
-
 
 function information() {
     if (showInfo === false) {
@@ -270,7 +259,6 @@ function information() {
             databoard.remove();
             showInfo = false;
             enableDisableButton(info);
-
         })
     }
 }
@@ -312,7 +300,6 @@ function createDataboard() {
     let panel = document.querySelector('.panel');
     panel.insertAdjacentElement('beforebegin', divdb);
     printYear();
-
 }
 
 function printYear() {
@@ -320,9 +307,7 @@ function printYear() {
     let year = date.getFullYear();
     let htmlYear = document.querySelector('#year');
     htmlYear.innerHTML = `${year}`;
-
 }
-
 
 window.onload = () => {
     createWorld();//the visual table

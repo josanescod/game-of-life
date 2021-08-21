@@ -1,13 +1,6 @@
 body {
     background-color: black;
     font-family: Rubik;
-}
-
-#world {
-    padding-bottom: 10px;
-}
-
-body {
     color: #47B896;
 }
 
@@ -40,11 +33,6 @@ h1, h2 {
     margin-bottom: 5px;
 }
 
-.panel {
-    text-align: center;
-    margin-top: 10px;
-}
-
 input, button {
     background-color: #47B896;
     color: #FFFFFF;
@@ -68,8 +56,20 @@ button:hover {
     border: 5px solid #FFFFFF;
 }
 
-#generation {
+a {
+    text-decoration: none;
     color: white;
+}
+
+a:hover {
+    font-weight: bold;
+    cursor: context-menu;
+}
+
+li {
+    list-style-type: none;
+    color: white;
+    padding-top: 5px;
 }
 
 .closebutton {
@@ -85,9 +85,17 @@ button:hover {
     cursor: context-menu;
 }
 
-#year {
+.panel {
     text-align: center;
-    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+#generation {
+    color: white;
+}
+
+#world {
+    padding-bottom: 10px;
 }
 
 #databoard {
@@ -98,20 +106,9 @@ button:hover {
     margin: auto;
 }
 
-a {
-    text-decoration: none;
-    color: white;
-}
-
-a:hover {
-    font-weight: bold;
-    cursor: context-menu;
-}
-
-li {
-    list-style-type: none;
-    color: white;
-    padding-top: 5px;
+#year {
+    text-align: center;
+    margin-bottom: 0px;
 }
 
 #livingCells {
