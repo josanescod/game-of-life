@@ -9,14 +9,15 @@ let timer; //To control evolutions
 let evolutionSpeed = 300 //time in ms between generations
 let generation = 1;
 let spanGen = document.querySelector('#generation');
+let spanLivingCells = document.querySelector('#livingCells');
 let showInfo = false;
+let livingCells = 0;
 
 const createGenArrays = () => {
     for (let i = 0; i < rows; i++) {
         currentGen[i] = new Array(cols);
         nextGen[i] = new Array(cols);
     }
-    console.log('createGenArrays');
 }
 
 const initGenArrays = () => {
@@ -26,7 +27,6 @@ const initGenArrays = () => {
             nextGen[i][j] = 0;
         }
     }
-    console.log('initGenArrays');
 }
 
 const createWorld = () => {
@@ -66,13 +66,21 @@ function cellClick() {
         ? (
             this.setAttribute('class', 'dead'),
             currentGen[row][col] = 0,
-            console.log(row, col, currentGen[row][col]))
+            livingCells--,
+            spanLivingCells.innerHTML = livingCells
+            //console.log('row:', row, 'col:', col, 'living:', currentGen[row][col])
+
+        )
         : (
             this.setAttribute('class', 'alive'),
             currentGen[row][col] = 1,
-            console.log(row, col, currentGen[row][col]))
+            livingCells++,
+            spanLivingCells.innerHTML = livingCells
+        )
+    //console.log('row:', row, 'col:', col, 'living:', currentGen[row][col]))
 
-    console.log('number of neighbors: ', getNeighborCount(row, col));
+    console.log(`row: ${row} | col: ${col} | living: ${currentGen[row][col]}
+number of neighbors: ${getNeighborCount(row, col)} | living cells: ${livingCells}`);
 }
 
 function getNeighborCount(row, col) {
@@ -142,6 +150,7 @@ function createNextGen() {
             if (currentGen[row][col] == 1) {
                 if (neighbors < 2) {
                     nextGen[row][col] = 0;
+
                 } else if (neighbors == 2 || neighbors == 3) {
                     nextGen[row][col] = 1;
                 } else if (neighbors > 3) {
@@ -157,19 +166,19 @@ function createNextGen() {
             }
         }
     }
-    console.log('createNextGen');
 }
 
 function updateCurrentGen() {
+    livingCells = 0;
     for (row in currentGen) {
         for (col in currentGen[row]) {
             //Update the current generation with the results of createNextGen function
             currentGen[row][col] = nextGen[row][col];
+            if (currentGen[row][col] === 1) { livingCells++ }
             //Set nextGen back to empty
             nextGen[row][col] = 0;
         }
     }
-    console.log('updateCurrentGen');
 }
 
 function updateWorld() {
@@ -179,12 +188,14 @@ function updateWorld() {
             cell = document.getElementById(row + '_' + col);
             if (currentGen[row][col] == 0) {
                 cell.setAttribute('class', 'dead');
+
+
             } else {
                 cell.setAttribute('class', 'alive');
+
             }
         }
     }
-    console.log('updateWorld');
 }
 
 function evolve() {
@@ -196,7 +207,10 @@ function evolve() {
         timer = setTimeout(evolve, evolutionSpeed);
     }
     spanGen.innerHTML = generation;
-    console.log('generation: ', generation);
+    console.log('generation: ', generation, ' / living Cells: ', livingCells);
+    //show number of living cells
+    spanLivingCells.innerHTML = livingCells;
+
 }
 
 function startStopGol() {
@@ -216,7 +230,6 @@ function startStopGol() {
         enableDisableButton(reset);
         clearTimeout(timer);
     }
-    console.log('startStopGol');
 }
 
 function enableDisableButton(button) {
@@ -233,14 +246,16 @@ function enableDisableButton(button) {
 }
 
 function resetWorld() {
-    console.log('reset');
     generation = 1;
+    livingCells = 0;
     spanGen.innerHTML = generation;
+    spanLivingCells.innerHTML = livingCells;
     let table = document.querySelector('table');
     table.remove();
     createWorld();//the visual table
     createGenArrays();//current and next generations
-    initGenArrays()
+    initGenArrays();
+    console.clear();
 }
 
 
@@ -251,14 +266,12 @@ function information() {
         enableDisableButton(info);
         let closeButton = document.querySelector('.closebutton');
         closeButton.addEventListener('click', function () {
-            console.log('closing databoard')
             let databoard = document.querySelector('#databoard');
             databoard.remove();
             showInfo = false;
             enableDisableButton(info);
 
         })
-        console.log('info');
     }
 }
 
@@ -309,6 +322,8 @@ function printYear() {
     htmlYear.innerHTML = `${year}`;
 
 }
+
+
 window.onload = () => {
     createWorld();//the visual table
     createGenArrays();//current and next generations

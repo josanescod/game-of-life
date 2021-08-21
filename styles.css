@@ -103,8 +103,17 @@ a {
     color: white;
 }
 
+a:hover {
+    font-weight: bold;
+    cursor: context-menu;
+}
+
 li {
     list-style-type: none;
     color: white;
     padding-top: 5px;
+}
+
+#livingCells {
+    color: white;
 }
