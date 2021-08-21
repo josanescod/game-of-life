@@ -45,7 +45,6 @@ const createWorld = () => {
         table.appendChild(tableRow);
     }
     world.appendChild(table);
-
     //set buttons
     let test = document.querySelector('#test');
     test.addEventListener('click', evolve);
@@ -246,17 +245,13 @@ function resetWorld() {
 
 
 function information() {
-
     if (showInfo === false) {
         showInfo = true;
-        //Create databoard
         createDataboard();
         enableDisableButton(info);
-        //set closebutton
         let closeButton = document.querySelector('.closebutton');
         closeButton.addEventListener('click', function () {
             console.log('closing databoard')
-            //remove div databoard
             let databoard = document.querySelector('#databoard');
             databoard.remove();
             showInfo = false;
@@ -268,9 +263,11 @@ function information() {
 }
 
 function createDataboard() {
-    // create div and childrens
+    let table = document.querySelector('table');
+    tableWidth = table.getBoundingClientRect().width + 'px';
     let divdb = document.createElement('div')
     divdb.setAttribute('id', 'databoard');
+    divdb.style.width = tableWidth;
     let pdb1 = document.createElement('p')
     pdb1.setAttribute('class', 'closebutton');
     pdb1.innerHTML = '[X]';
@@ -283,14 +280,8 @@ function createDataboard() {
     pdb4.innerHTML = 'Source: Github';
     let h6db = document.createElement('h6')
     h6db.setAttribute('id', 'year');
-    //add all elements
-    divdb.appendChild(pdb1);
-    divdb.appendChild(brdb);
-    divdb.appendChild(pdb2);
-    divdb.appendChild(pdb3);
-    divdb.appendChild(pdb4);
-    divdb.appendChild(h6db);
-    //add div before panel
+    let elements = [pdb1, brdb, pdb2, pdb3, pdb4, h6db];
+    elements.map(element => divdb.appendChild(element));
     let panel = document.querySelector('.panel');
     panel.insertAdjacentElement('beforebegin', divdb);
     printYear();
@@ -308,6 +299,5 @@ window.onload = () => {
     createWorld();//the visual table
     createGenArrays();//current and next generations
     initGenArrays();//set all array locations to 0=dead
-    //printYear();
 
 }
