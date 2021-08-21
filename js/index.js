@@ -6,7 +6,7 @@ var currentGen = [rows];
 let nextGen = [rows];
 let started = false; //Set true when use clicks start
 let timer; //To control evolutions
-let evolutionSpeed = 300 //time in ms between generations
+let evolutionSpeed = 300 //time between generations in ms
 let generation = 1;
 let spanGen = document.querySelector('#generation');
 let spanLivingCells = document.querySelector('#livingCells');
@@ -45,7 +45,7 @@ const createWorld = () => {
         table.appendChild(tableRow);
     }
     world.appendChild(table);
-    //set buttons
+    // buttons
     let test = document.querySelector('#test');
     test.addEventListener('click', evolve);
     let startStop = document.querySelector('#startStop');
@@ -182,9 +182,9 @@ function updateWorld() {
 
 function evolve() {
     generation++;
-    createNextGen();//Apply the rules
-    updateCurrentGen();//Set current values from new generation
-    updateWorld();//Update the world view index.html
+    createNextGen();
+    updateCurrentGen();
+    updateWorld();
     if (started) {
         timer = setTimeout(evolve, evolutionSpeed);
     }
