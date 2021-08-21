@@ -268,19 +268,33 @@ function createDataboard() {
     let divdb = document.createElement('div')
     divdb.setAttribute('id', 'databoard');
     divdb.style.width = tableWidth;
+
     let pdb1 = document.createElement('p')
     pdb1.setAttribute('class', 'closebutton');
     pdb1.innerHTML = '[X]';
+
     let brdb = document.createElement('br');
-    let pdb2 = document.createElement('p');
-    pdb2.innerHTML = 'Info: Game of Life';
-    let pdb3 = document.createElement('p');
-    pdb3.innerHTML = 'Rules: Rules';
-    let pdb4 = document.createElement('p');
-    pdb4.innerHTML = 'Source: Github';
-    let h6db = document.createElement('h6')
+    let ul = document.createElement('ul');
+    let li1 = document.createElement('li');
+    li1.innerHTML = 'Any live cell with fewer than two live neighbours dies, as if by underpopulation.'
+    let li2 = document.createElement('li');
+    li2.innerHTML = 'Any live cell with two or three live neighbours lives on to the next generation.'
+    let li3 = document.createElement('li');
+    li3.innerHTML = 'Any live cell with more than three live neighbours dies, as if by overpopulation.'
+    let li4 = document.createElement('li');
+    li4.innerHTML = 'Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.';
+    let ulElements = [li1, li2, li3, li4];
+    ulElements.map(element => ul.appendChild(element));
+    let wikianch = document.createElement('a');
+    wikianch.setAttribute('href', 'https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life');
+    wikianch.innerHTML = "Game of Life"
+    let pdb5 = document.createElement('p');
+    pdb5.style.paddingLeft = '40px';
+    pdb5.innerHTML = 'Source: ';
+    pdb5.appendChild(wikianch)
+    let h6db = document.createElement('h6');
     h6db.setAttribute('id', 'year');
-    let elements = [pdb1, brdb, pdb2, pdb3, pdb4, h6db];
+    let elements = [pdb1, brdb, ul, pdb5, h6db];
     elements.map(element => divdb.appendChild(element));
     let panel = document.querySelector('.panel');
     panel.insertAdjacentElement('beforebegin', divdb);
