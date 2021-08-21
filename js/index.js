@@ -1,9 +1,9 @@
+import { rulesGol } from './textInfo.js';
+
 const rows = 40;
 const cols = 40;
-
-let currentGen = [rows];
+var currentGen = [rows];
 let nextGen = [rows];
-
 let started = false; //Set true when use clicks start
 let timer; //To control evolutions
 let evolutionSpeed = 300 //time in ms between generations
@@ -13,7 +13,7 @@ let spanLivingCells = document.querySelector('#livingCells');
 let showInfo = false;
 let livingCells = 0;
 
-const createGenArrays = () => {
+function createGenArrays() {
     for (let i = 0; i < rows; i++) {
         currentGen[i] = new Array(cols);
         nextGen[i] = new Array(cols);
@@ -54,8 +54,6 @@ const createWorld = () => {
     reset.addEventListener('click', resetWorld);
     let info = document.querySelector('#info');
     info.addEventListener('click', information);
-
-
 }
 
 function cellClick() {
@@ -83,51 +81,43 @@ function getNeighborCount(row, col) {
     let count = 0;
     let numberRow = Number(row);
     let numberCol = Number(col);
-
     //make sure we are not at the first row
     if (numberRow - 1 >= 0) {
         //check top neighbor
         if (currentGen[numberRow - 1][numberCol] == 1) count++;
     }
-
     //make sure we are not in the first cell
     //upper left corner
     if (numberRow - 1 >= 0 && numberCol - 1 >= 0) {
         //check upper left neighbor
         if (currentGen[numberRow - 1][numberCol - 1] == 1) count++;
     }
-
     //make sure we are not on the first row last column
     //upper right corner
     if (numberRow - 1 >= 0 && numberCol + 1 < cols) {
         //check upper right neighbor
         if (currentGen[numberRow - 1][numberCol + 1] == 1) count++;
     }
-
     //make sure we are not on the first column
     if (numberCol - 1 >= 0) {
         //check left neighbor
         if (currentGen[numberRow][numberCol - 1] == 1) count++;
     }
-
     //make sure we are not on the last column
     if (numberCol + 1 < cols) {
         //check right neighbor
         if (currentGen[numberRow][numberCol + 1] == 1) count++;
     }
-
     //make sure we are not on the bottom left corner
     if (numberRow + 1 < rows && numberCol - 1 >= 0) {
         //check bottom left neighbor
         if (currentGen[numberRow + 1][numberCol - 1] == 1) count++;
     }
-
     //make sure we are not on the bottom right
     if (numberRow + 1 < rows && numberCol + 1 < cols) {
         //check bottom right neighbor
         if (currentGen[numberRow + 1][numberCol + 1] == 1) count++;
     }
-
     //make sure we are not on the last row
     if (numberRow + 1 < rows) {
         //check bottom neighbor
@@ -137,8 +127,8 @@ function getNeighborCount(row, col) {
 }
 
 function createNextGen() {
-    for (row in currentGen) {
-        for (col in currentGen[row]) {
+    for (let row in currentGen) {
+        for (let col in currentGen[row]) {
             let neighbors = getNeighborCount(row, col);
             //Check the rules
             //If alive
@@ -165,8 +155,8 @@ function createNextGen() {
 
 function updateCurrentGen() {
     livingCells = 0;
-    for (row in currentGen) {
-        for (col in currentGen[row]) {
+    for (let row in currentGen) {
+        for (let col in currentGen[row]) {
             //Update the current generation with the results of createNextGen function
             currentGen[row][col] = nextGen[row][col];
             if (currentGen[row][col] === 1) { livingCells++ }
@@ -178,8 +168,8 @@ function updateCurrentGen() {
 
 function updateWorld() {
     let cell = '';
-    for (row in currentGen) {
-        for (col in currentGen[row]) {
+    for (let row in currentGen) {
+        for (let col in currentGen[row]) {
             cell = document.getElementById(row + '_' + col);
             if (currentGen[row][col] == 0) {
                 cell.setAttribute('class', 'dead');
@@ -265,27 +255,24 @@ function information() {
 
 function createDataboard() {
     let table = document.querySelector('table');
-    tableWidth = table.getBoundingClientRect().width + 'px';
+    let tableWidth = table.getBoundingClientRect().width + 'px';
     let divdb = document.createElement('div')
     divdb.setAttribute('id', 'databoard');
     divdb.style.width = tableWidth;
-
     let pdb1 = document.createElement('p')
     pdb1.setAttribute('class', 'closebutton');
     pdb1.innerHTML = '[X]';
-
     let brdb = document.createElement('br');
     let ul = document.createElement('ul');
-    let li1 = document.createElement('li');
-    li1.innerHTML = 'Any live cell with fewer than two live neighbours dies, as if by underpopulation.'
-    let li2 = document.createElement('li');
-    li2.innerHTML = 'Any live cell with two or three live neighbours lives on to the next generation.'
-    let li3 = document.createElement('li');
-    li3.innerHTML = 'Any live cell with more than three live neighbours dies, as if by overpopulation.'
-    let li4 = document.createElement('li');
-    li4.innerHTML = 'Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.';
-    let ulElements = [li1, li2, li3, li4];
-    ulElements.map(element => ul.appendChild(element));
+    let ulElements = [];
+    rulesGol.map(element => {
+        let newLi = document.createElement('li');
+        newLi.innerHTML = element.text;
+        ulElements.push(newLi);
+    })
+    ulElements.map(element => {
+        ul.appendChild(element)
+    });
     let wikianch = document.createElement('a');
     wikianch.setAttribute('href', 'https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life');
     wikianch.innerHTML = "Game of Life"
@@ -313,5 +300,4 @@ window.onload = () => {
     createWorld();//the visual table
     createGenArrays();//current and next generations
     initGenArrays();//set all array locations to 0=dead
-
 }
